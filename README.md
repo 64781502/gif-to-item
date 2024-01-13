@@ -2,6 +2,7 @@
 turns a gif into a minecraft animated item
 
 requirements:
+* python3.6+
 * ffmpeg (in PATH)
 
 pip requirements:
