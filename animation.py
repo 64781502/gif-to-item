@@ -1,7 +1,31 @@
 from PIL import Image
+from enum import Enum
 import os, sys, glob, shutil
 
-FILE = sys.argv[-1].split('\\')[-1]
+def verbose():
+    if len(sys.argv) > 2 and sys.argv[-1] == "-v":
+        return True
+    else:
+        return False
+
+class Message(Enum):
+    if verbose:
+        from colorama import Fore, Style
+
+    SUCCESS = f"{Fore.LIGHTGREEN_EX}[+] "
+    INFO = f"{Fore.CYAN}[+] "
+    WARNING = f"{Fore.LIGHTYELLOW_EX}[!] "
+    ERROR = f"{Fore.LIGHTRED_EX}[-] "
+    RESET = Style.RESET_ALL
+
+if len(sys.argv) <= 1:
+        print(Message.ERROR.value + "Didn't specify a file" + Message.RESET.value)
+        exit()
+
+FILE = sys.argv[1].split('\\')[-1]
+
+if verbose:
+    print(Message.INFO.value + "Running verbose (debug)" + Message.RESET.value)
 
 def gif_frames(gif_path):
     with Image.open(gif_path) as img:
@@ -10,10 +34,9 @@ def gif_frames(gif_path):
         except EOFError:
             return None
 
-        delay = img.info['duration']
         frames = img.n_frames
 
-    return frames
+        return frames
 
 
 def gen_mcmeta():
@@ -57,6 +80,7 @@ def combine_images():
 
 
 def gif_to_images():
+    print(f"RN IDK JNFDKGFD: {sys._getframe(0).f_code.co_name}")
     if not os.path.exists("temp"): 
         os.makedirs("temp") 
     
@@ -66,14 +90,10 @@ def gif_to_images():
 
 
 def main():
-    if len(sys.argv) <= 1:
-        print("Didn't specify a file")
-        exit()
-
     gif = Image.open(FILE)
     
     if gif.width != gif.height:
-        print("Input gif is not square (1x1)")
+        print(Message.ERROR.value + "Input gif is not square (1x1)" + Message.RESET.value)
         exit()
 
     gen_mcmeta()
