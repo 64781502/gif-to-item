@@ -2,30 +2,20 @@ from PIL import Image
 from enum import Enum
 import os, sys, glob, shutil
 
-def verbose():
-    if len(sys.argv) > 2 and sys.argv[-1] == "-v":
-        return True
-    else:
-        return False
-
 class Message(Enum):
-    if verbose:
-        from colorama import Fore, Style
-
-    SUCCESS = f"{Fore.LIGHTGREEN_EX}[+] "
-    INFO = f"{Fore.CYAN}[+] "
-    WARNING = f"{Fore.LIGHTYELLOW_EX}[!] "
-    ERROR = f"{Fore.LIGHTRED_EX}[-] "
-    RESET = Style.RESET_ALL
+    SUCCESS = f"[+] "
+    INFO = f"[+] "
+    WARNING = f"[!] "
+    ERROR = f"[-] "
+    
 
 if len(sys.argv) <= 1:
-        print(Message.ERROR.value + "Didn't specify a file" + Message.RESET.value)
-        exit()
+    print(Message.ERROR.value + "Didn't specify a file")
+    
+    input()
+    exit()
 
 FILE = sys.argv[1].split('\\')[-1]
-
-if verbose:
-    print(Message.INFO.value + "Running verbose (debug)" + Message.RESET.value)
 
 def gif_frames(gif_path):
     with Image.open(gif_path) as img:
@@ -78,22 +68,21 @@ def combine_images():
 
     combined_image.save(FILE.split('.')[0] + '.png')
 
-
 def gif_to_images():
-    print(f"RN IDK JNFDKGFD: {sys._getframe(0).f_code.co_name}")
     if not os.path.exists("temp"): 
         os.makedirs("temp") 
     
     digit = len(str(gif_frames(FILE)))
     
-    os.system(f"ffmpeg -i {FILE} temp/{FILE.split('.')[0]}_%0{digit}d.png")
+    os.system(f"ffmpeg -i {FILE} temp/{FILE.split('.')[0]}_%0{digit}d.png -hide_banner -loglevel error")
 
 
 def main():
     gif = Image.open(FILE)
     
     if gif.width != gif.height:
-        print(Message.ERROR.value + "Input gif is not square (1x1)" + Message.RESET.value)
+        print(Message.ERROR.value + "Input gif is not square (1x1)")
+        input()
         exit()
 
     gen_mcmeta()
