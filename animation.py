@@ -68,6 +68,7 @@ def combine_images():
 
     combined_image.save(FILE.split('.')[0] + '.png')
 
+
 def gif_to_images():
     if not os.path.exists("temp"): 
         os.makedirs("temp") 
