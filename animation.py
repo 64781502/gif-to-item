@@ -46,7 +46,6 @@ def gen_mcmeta():
     f.write(json_string)
     f.close()
 
-
 def cleanup():
     shutil.rmtree("temp")
 
