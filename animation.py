@@ -81,7 +81,7 @@ def main():
     gif = Image.open(FILE)
     
     if gif.width != gif.height:
-        print(Message.ERROR.value + "Input gif is not square (1x1)")
+        print(Message.ERROR + "Input gif is not square (1x1)")
         input()
         exit()
 
