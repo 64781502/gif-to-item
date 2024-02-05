@@ -1,8 +1,7 @@
 from PIL import Image
-from enum import Enum
 import os, sys, glob, shutil
 
-class Message(Enum):
+class Message():
     SUCCESS = f"[+] "
     INFO = f"[+] "
     WARNING = f"[!] "
@@ -10,7 +9,7 @@ class Message(Enum):
     
 
 if len(sys.argv) <= 1:
-    print(Message.ERROR.value + "Didn't specify a file")
+    print(Message.ERROR + "Didn't specify a file")
     
     input()
     exit()
@@ -47,7 +46,7 @@ def gen_mcmeta():
     f.close()
 
 
-def cleanup():
+def suicide_cleanup():
     shutil.rmtree("temp")
 
 
@@ -89,7 +88,7 @@ def main():
     gen_mcmeta()
     gif_to_images()
     combine_images()
-    cleanup()
+    suicide_cleanup()
 
 
 if __name__ == "__main__":
